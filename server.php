@@ -13,9 +13,7 @@ $server = IoServer::factory(
             new SystemChat()
         )
     ),
-    // A porta do WS, não deve ser a mesma da aplicação.
     8080
 );
 
-// Iniciar o servidor e começar a escutar as conexões.
 $server->run();
