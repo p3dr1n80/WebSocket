@@ -14,7 +14,6 @@
 <div class="container mt-5">
     <h2>Chat</h2>
 
-    <!-- Campo para cadastrar o usuário -->
     <div class="field_username col-md-3">
         <label for="username">Digite o seu nome</label>
         <input class="form-control" type="text" name="username" id="username">
@@ -22,21 +21,18 @@
     </div>
 
 
-    <!-- Campo para o usuario digitar a nova mensagem -->
     <div class="field_message col-md-3" hidden>
         <label for="message">Nova mensagem</label>
         <input class="form-control" type="text" name="message" id="message" placeholder="Digite a mensagem...">
         <button class="btn btn-primary mt-3" id="btn_message" onclick="send_message()">Enviar</button>
     </div>
 
-    <!-- Receber as mensagens do chat enviado pelo JS -->
     <span id="message_chat" hidden>
         <h2 class="mt-5">Mensagens</h2>
     </span>
 </div>
 
 <script>
-    // Registra o nome do usuário
     const register_username = () => {
         const username = document.getElementById('username')
         document.querySelector('.field_username').setAttribute('hidden', true)
@@ -45,32 +41,25 @@
         return username.value
     }
 
-    // Recuperar o id que deve receber as mensagens no chat
     const messageChat = document.getElementById('message_chat')
 
-    // Endereço do WS
     const ws = new WebSocket('ws://localhost:8080')
 
-    // Realizar a conexão com o WS
     ws.onopen = (e) => {
         if (e.isTrusted === true) {
             console.log('Chat conectado!')
         }
     }
 
-    // Função para enviar a mensagem
     const send_message = () => {
 
-        // Recuperar o id do campo mensagem
         let message = document.getElementById('message');
 
-        // Criar o array de dados para enviar para o WS
         let data = {
             username: register_username(),
             message: message.value
         }
 
-        // Mostrar histórico de mensagens para o remetente
         const div = document.createElement('div')
         const span_name = document.createElement('span')
         const span_message = document.createElement('span')
@@ -82,19 +71,14 @@
         span_message.textContent = data.message
         messageChat.append(div)
 
-        // Enviar a mensagem para o WS
         ws.send(JSON.stringify(data))
 
-        // Limpar o campo mensagem
         message.value = ''
     }
 
-    // Receber a mensagem do WS
     ws.onmessage = (received_message) => {
-        // Ler as mensagens enviadas pelo WS
         let result = JSON.parse(received_message.data);
 
-        // Enviar a mensagem para o HTML, e inserir no final da lista de mensagens
         const div = document.createElement('div')
         const span_name = document.createElement('span')
         const span_message = document.createElement('span')
