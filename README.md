@@ -1,2 +1,6 @@
 ## WebSocket
-Chat criado com Web Socket
+Desenvolvimento de chat utilizando WebSocket.
+
+
+
+Co-authored-by: FinanceC <financecontrolinfo@gmail.com>
